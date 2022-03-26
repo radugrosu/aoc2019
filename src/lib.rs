@@ -23,19 +23,35 @@ pub mod output {
 pub mod error {
 
     use std::fmt;
+    use std::io;
     #[derive(Debug)]
     pub enum Error {
         Custom(String),
+        Io(io::Error),
+        ParseInt(std::num::ParseIntError),
     }
 
     impl fmt::Display for Error {
         fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
             match self {
                 Self::Custom(s) => write!(f, "{}", s),
+                Self::Io(s) => write!(f, "{}", s),
+                Self::ParseInt(s) => write!(f, "{}", s),
             }
         }
     }
     impl std::error::Error for Error {}
+
+    impl From<io::Error> for Error {
+        fn from(e: io::Error) -> Self {
+            Self::Io(e)
+        }
+    }
+    impl From<std::num::ParseIntError> for Error {
+        fn from(e: std::num::ParseIntError) -> Self {
+            Self::ParseInt(e)
+        }
+    }
 }
 pub mod reader {
     use std::{

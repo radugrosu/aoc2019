@@ -23,7 +23,7 @@ fn run() -> Result<Output, Error> {
     let input = std::io::stdin();
     let reader = match opt.input {
         Some(path) => {
-            let file = fs::File::open(path).unwrap();
+            let file = fs::File::open(path)?;
             Reader::BufReader(io::BufReader::new(file))
         }
         None => Reader::Stdin(input.lock()),
@@ -33,7 +33,7 @@ fn run() -> Result<Output, Error> {
         n if n > 1 && n < 26 => bail!("Day {} is not yet implemented", n),
         _ => bail!("Day must be between 1 and 25"),
     };
-    Ok(r)
+    r
 }
 
 fn main() {

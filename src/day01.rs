@@ -1,7 +1,8 @@
-use std::io::BufRead;
+use crate::error::Error;
 use crate::output::Output;
+use std::io::BufRead;
 
-pub fn run<R>(input: R) -> Output
+pub fn run<R>(input: R) -> Result<Output, Error>
 where
     R: BufRead,
 {
@@ -14,5 +15,5 @@ where
         })
         .map(|n| n / 3 - 2)
         .sum();
-    return Output::Number(out)
+    return Ok(Output::Number(out));
 }
