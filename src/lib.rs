@@ -1,6 +1,8 @@
+#[macro_use]
+mod macros;
+
 pub mod day01;
 pub mod day02;
-
 pub mod output {
     use std::fmt;
     #[derive(Debug)]
@@ -8,7 +10,7 @@ pub mod output {
         Number(usize),
         String(String),
     }
-    impl fmt::Display for Output{
+    impl fmt::Display for Output {
         fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
             match self {
                 Self::Number(s) => write!(f, "{}", s),
@@ -19,6 +21,7 @@ pub mod output {
 }
 
 pub mod error {
+
     use std::fmt;
     #[derive(Debug)]
     pub enum Error {
@@ -32,6 +35,7 @@ pub mod error {
             }
         }
     }
+    impl std::error::Error for Error {}
 }
 pub mod reader {
     use std::{

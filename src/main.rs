@@ -1,6 +1,6 @@
-use aoc2019::{reader::Reader, error::Error, output::Output};
+use aoc2019::{bail, error::Error, output::Output, reader::Reader};
 use std::path::PathBuf;
-use std::{fs, io};
+use std::{error, fs, io, process};
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
@@ -8,7 +8,15 @@ struct Opt {
     day: usize,
     input: Option<PathBuf>,
 }
-
+fn log_error_chain(e: Error) {
+    eprintln!("error: {}", e);
+    let mut e = &e as &dyn error::Error;
+    while let Some(source) = e.source() {
+        e = source;
+        eprintln!("error: {}", e);
+    }
+    process::exit(1);
+}
 
 fn run() -> Result<Output, Error> {
     let opt = Opt::from_args();
@@ -22,8 +30,8 @@ fn run() -> Result<Output, Error> {
     };
     let r = match opt.day {
         1 => aoc2019::day01::run(reader),
-        n if n > 1 && n < 26 => return Err(Error::Custom(format!("Day {} is not yet implemented", n))),
-        _ => return Err(Error::Custom(format!("Day must be between 1 and 25")))
+        n if n > 1 && n < 26 => bail!("Day {} is not yet implemented", n),
+        _ => bail!("Day must be between 1 and 25"),
     };
     Ok(r)
 }
@@ -31,6 +39,6 @@ fn run() -> Result<Output, Error> {
 fn main() {
     match run() {
         Ok(r) => println!("{}", r),
-        Err(e) => eprintln!("{}", e),
+        Err(e) => log_error_chain(e),
     }
 }
