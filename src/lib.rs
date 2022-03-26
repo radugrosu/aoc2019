@@ -1,10 +1,42 @@
 pub mod day01;
 pub mod day02;
 
+pub mod output {
+    use std::fmt;
+    #[derive(Debug)]
+    pub enum Output {
+        Number(usize),
+        String(String),
+    }
+    impl fmt::Display for Output{
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            match self {
+                Self::Number(s) => write!(f, "{}", s),
+                Self::String(s) => write!(f, "{}", s),
+            }
+        }
+    }
+}
+
+pub mod error {
+    use std::fmt;
+    #[derive(Debug)]
+    pub enum Error {
+        Custom(String),
+    }
+
+    impl fmt::Display for Error {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            match self {
+                Self::Custom(s) => write!(f, "{}", s),
+            }
+        }
+    }
+}
 pub mod reader {
     use std::{
         fs::File,
-        io::{BufRead, Read, BufReader, Result, StdinLock},
+        io::{BufRead, BufReader, Read, Result, StdinLock},
     };
     pub enum Reader<'a> {
         BufReader(BufReader<File>),
@@ -25,7 +57,7 @@ pub mod reader {
             }
         }
     }
-    impl <'a> Read for Reader<'a>{
+    impl<'a> Read for Reader<'a> {
         fn read(&mut self, buf: &mut [u8]) -> Result<usize> {
             match self {
                 Self::BufReader(reader) => reader.read(buf),

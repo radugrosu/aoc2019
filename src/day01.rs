@@ -1,10 +1,11 @@
 use std::io::BufRead;
+use crate::output::Output;
 
-pub fn run<R>(input: R) -> usize
+pub fn run<R>(input: R) -> Output
 where
     R: BufRead,
 {
-    input
+    let out = input
         .lines()
         .map(|l| {
             l.unwrap()
@@ -12,5 +13,6 @@ where
                 .expect("Cannot parse {l} as usize")
         })
         .map(|n| n / 3 - 2)
-        .sum()
+        .sum();
+    return Output::Number(out)
 }
