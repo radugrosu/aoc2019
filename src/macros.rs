@@ -5,6 +5,6 @@ macro_rules! error {
 #[macro_export]
 macro_rules! bail {
     ($($arg:tt)*) => {
-        (return Err($crate::error::Error::Custom(format!("{}", format_args!($($arg)*)))));
+        (return Err($crate::error::Error::Custom(format!("{}", format_args!($($arg)*)))))
     }
 }
