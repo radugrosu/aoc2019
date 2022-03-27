@@ -5,7 +5,7 @@ pub mod day01;
 pub mod day02;
 pub mod output {
     use std::fmt;
-    #[derive(Debug)]
+    #[derive(Debug, PartialEq)]
     pub enum Output {
         Number(usize),
         String(String),
@@ -16,6 +16,20 @@ pub mod output {
                 Self::Number(s) => write!(f, "{}", s),
                 Self::String(s) => write!(f, "{}", s),
             }
+        }
+    }
+    #[derive(Debug)]
+    pub struct DayOutput {
+        pub one: Output,
+        pub two: Option<Output>,
+    }
+    impl fmt::Display for DayOutput {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            let mut out = format!("part one: {}", self.one);
+            if let Some(s) = &self.two {
+                out = format!("{}\npart two: {}", out, s)
+            }
+            write!(f, "{}", out)
         }
     }
 }

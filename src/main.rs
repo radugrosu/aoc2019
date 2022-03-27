@@ -1,4 +1,4 @@
-use aoc2019::{bail, error::Error, output::Output, reader::Reader};
+use aoc2019::{bail, error::Error, output::DayOutput, reader::Reader};
 use std::path::PathBuf;
 use std::{error, fs, io, process};
 use structopt::StructOpt;
@@ -18,10 +18,10 @@ fn log_error_chain(e: Error) {
     process::exit(1);
 }
 
-fn run() -> Result<Output, Error> {
+fn run() -> Result<DayOutput, Error> {
     let opt = Opt::from_args();
     let input = std::io::stdin();
-    let reader = match opt.input {
+    let mut reader = match opt.input {
         Some(path) => {
             let file = fs::File::open(path)?;
             Reader::BufReader(io::BufReader::new(file))
@@ -29,7 +29,7 @@ fn run() -> Result<Output, Error> {
         None => Reader::Stdin(input.lock()),
     };
     let r = match opt.day {
-        1 => aoc2019::day01::run(reader),
+        1 => aoc2019::day01::run(&mut reader),
         n if n > 1 && n < 26 => bail!("Day {} is not yet implemented", n),
         _ => bail!("Day must be between 1 and 25"),
     };
