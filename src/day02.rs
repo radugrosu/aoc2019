@@ -8,7 +8,7 @@ fn parse_input(input: &str) -> Vec<usize> {
         .map(|n| {
             n.trim()
                 .parse::<usize>()
-                .expect("Cannot parse {n} as usize")
+                .expect(&format!("Cannot parse {} as usize", n))
         })
         .collect()
 }

@@ -31,6 +31,7 @@ fn run() -> Result<DayOutput, Error> {
     let r = match opt.day {
         1 => aoc2019::day01::run(&mut reader),
         2 => aoc2019::day02::run(&mut reader),
+        3 => aoc2019::day03::run(&mut reader),
         n if n > 1 && n < 26 => bail!("Day {} is not yet implemented", n),
         _ => bail!("Day must be between 1 and 25"),
     };

@@ -9,3 +9,10 @@ authors = ["Radu Grosu <radu.grosu@gmail.com>"]
 
 [dependencies]
 structopt = "^0.3"
+
+[dev-dependencies]
+criterion = "^0.3"
+
+[[bench]]
+name = "benchmark"
+harness = false

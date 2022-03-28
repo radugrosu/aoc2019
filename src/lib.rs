@@ -3,6 +3,8 @@ mod macros;
 
 pub mod day01;
 pub mod day02;
+pub mod day03;
+
 pub mod output {
     use std::fmt;
     #[derive(Debug, PartialEq)]
@@ -18,7 +20,12 @@ pub mod output {
             }
         }
     }
-    #[derive(Debug)]
+    impl Default for Output {
+        fn default() -> Self {
+            Self::String("<NOT DONE>".to_string())
+        }
+    }
+    #[derive(Debug, Default)]
     pub struct DayOutput {
         pub one: Output,
         pub two: Option<Output>,
