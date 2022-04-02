@@ -181,7 +181,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_part_one_x() {
+    fn test_part_one() {
         let data = "R8,U5,L5,D3\nU7,R6,D4,L4";
         let (one, mut two) = get_inputs(data).unwrap();
         assert_eq!(part_one(&one, &two).unwrap(), 6);

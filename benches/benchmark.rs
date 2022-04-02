@@ -9,6 +9,8 @@ fn bench(c: &mut Criterion, day: &str) {
         let runner = match day {
             "day01" => aoc2019::day01::run,
             "day02" => aoc2019::day02::run,
+            "day03" => aoc2019::day03::run,
+            "day04" => aoc2019::day04::run,
             _ => unimplemented!(),
         };
         b.iter(|| {
@@ -19,7 +21,7 @@ fn bench(c: &mut Criterion, day: &str) {
 }
 
 pub fn criterion_benchmark(c: &mut Criterion) {
-    for day in vec!["day01", "day02"] {
+    for day in vec!["day01", "day02", "day03", "day04"] {
         bench(c, day)
     }
 }

@@ -32,6 +32,7 @@ fn run() -> Result<DayOutput, Error> {
         1 => aoc2019::day01::run(&mut reader),
         2 => aoc2019::day02::run(&mut reader),
         3 => aoc2019::day03::run(&mut reader),
+        4 => aoc2019::day04::run(&mut reader),
         n if n > 1 && n < 26 => bail!("Day {} is not yet implemented", n),
         _ => bail!("Day must be between 1 and 25"),
     };
