@@ -5,11 +5,7 @@ use std::io::BufRead;
 fn parse_input(input: &str) -> Vec<usize> {
     input
         .split(',')
-        .map(|n| {
-            n.trim()
-                .parse::<usize>()
-                .expect(&format!("Cannot parse {} as usize", n))
-        })
+        .map(|n| n.trim().parse::<usize>().unwrap_or(0))
         .collect()
 }
 pub fn run<R>(input: &mut R) -> Result<DayOutput, Error>
@@ -25,16 +21,16 @@ where
         two: Some(Output::Number(part_two(&input)?)),
     })
 }
-pub fn part_one(input: &Vec<usize>) -> Result<usize, Error> {
-    let mut input = input.clone();
+pub fn part_one(input: &[usize]) -> Result<usize, Error> {
+    let mut input: Vec<usize> = input.to_vec();
     input[1] = 12;
     input[2] = 2;
     run_op(&mut input)
 }
-fn find(haystack: &Vec<usize>, needle: usize) -> Result<Option<(usize, usize)>, Error> {
+fn find(haystack: &[usize], needle: usize) -> Result<Option<(usize, usize)>, Error> {
     for i in 0..100 {
         for j in 0..100 {
-            let mut input = haystack.clone();
+            let mut input = haystack.to_vec();
             input[1] = i;
             input[2] = j;
             if run_op(&mut input)? == needle {
@@ -44,7 +40,7 @@ fn find(haystack: &Vec<usize>, needle: usize) -> Result<Option<(usize, usize)>, 
     }
     Ok(None)
 }
-pub fn part_two(input: &Vec<usize>) -> Result<usize, Error> {
+pub fn part_two(input: &[usize]) -> Result<usize, Error> {
     match find(input, 19690720)? {
         Some((noun, verb)) => Ok(100 * noun + verb),
         None => bail!("Couldn't find suitable values"),

@@ -2,7 +2,7 @@ use crate::error::Error;
 use crate::output::{DayOutput, Output};
 use std::io::BufRead;
 
-pub fn run_part<F>(input: &String, func: F) -> Result<Output, Error>
+pub fn run_part<F>(input: &str, func: F) -> Result<Output, Error>
 where
     F: Fn(usize) -> usize,
 {
@@ -11,7 +11,7 @@ where
         .map(|l| l.parse::<usize>().expect("Cannot parse {l} as usize"))
         .map(func)
         .sum();
-    return Ok(Output::Number(out));
+    Ok(Output::Number(out))
 }
 
 fn fuel_req_one(n: usize) -> usize {

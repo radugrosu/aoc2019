@@ -44,6 +44,7 @@ pub mod output {
 
 pub mod error {
 
+    use std::array::TryFromSliceError;
     use std::fmt;
     use std::io;
     #[derive(Debug)]
@@ -51,6 +52,7 @@ pub mod error {
         Custom(String),
         Io(io::Error),
         ParseInt(std::num::ParseIntError),
+        FromSlice(std::array::TryFromSliceError),
     }
 
     impl fmt::Display for Error {
@@ -59,6 +61,7 @@ pub mod error {
                 Self::Custom(s) => write!(f, "{}", s),
                 Self::Io(s) => write!(f, "{}", s),
                 Self::ParseInt(s) => write!(f, "{}", s),
+                Self::FromSlice(s) => write!(f, "{}", s),
             }
         }
     }
@@ -72,6 +75,12 @@ pub mod error {
     impl From<std::num::ParseIntError> for Error {
         fn from(e: std::num::ParseIntError) -> Self {
             Self::ParseInt(e)
+        }
+    }
+
+    impl From<TryFromSliceError> for Error {
+        fn from(e: std::array::TryFromSliceError) -> Self {
+            Self::FromSlice(e)
         }
     }
 }

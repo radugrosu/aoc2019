@@ -42,7 +42,7 @@ fn parse_line(input: &str) -> Vec<Instruction> {
         .map(|n| {
             n.trim()
                 .parse::<Instruction>()
-                .expect(&format!("Cannot parse {} as `Instruction`", n))
+                .unwrap_or_else(|_| panic!("Cannot parse {} as `Instruction`", n))
         })
         .collect()
 }
@@ -52,11 +52,11 @@ fn parse_input(input: &str) -> Result<(Vec<Instruction>, Vec<Instruction>), Erro
         lines
             .next()
             .map(parse_line)
-            .ok_or(Error::Custom(format!("Cannot parse line 1")))?,
+            .ok_or_else(|| Error::Custom("Cannot parse line 1".to_string()))?,
         lines
             .next()
             .map(parse_line)
-            .ok_or(Error::Custom(format!("Cannot parse line 2")))?,
+            .ok_or_else(|| Error::Custom("Cannot parse line 2".to_string()))?,
     ))
 }
 
@@ -122,7 +122,7 @@ impl Hash for Point {
     }
 }
 
-fn get_coordinate_list(instructions: &Vec<Instruction>) -> Vec<Point> {
+fn get_coordinate_list(instructions: &[Instruction]) -> Vec<Point> {
     let current = Point::default();
     let mut coords = vec![current];
     for instruction in instructions {
@@ -143,7 +143,7 @@ fn part_one(one: &HashSet<Point>, two: &HashSet<Point>) -> Result<usize, Error> 
 fn part_two(one: &HashSet<Point>, two: &mut HashSet<Point>) -> Result<usize, Error> {
     let mut closest = usize::MAX;
     for item in one {
-        if let Some(other) = two.take(&item) {
+        if let Some(other) = two.take(item) {
             let d = item.d + other.d;
             if d < closest {
                 closest = d;
